@@ -31,6 +31,16 @@
           <td align='center' border='1' width='5%'><img src='sym/plus-lg.svg'></td>
           <td align='center' border='1' width='5%'><img src='sym/toggle-off.svg'></td>
     		</tr>
+        <tr>
+          <td align='center' border='1' colspan='7' class='button'>
+            Neues Licht anlegen
+            <form action="light.php" id="newLight" method='post'>
+              <label for="name">Name: </label>
+              <input type="text" name="name" id="name" maxlength="30">
+              <button type="submit">Anlegen</button>
+            </form>
+          </td>
+        </tr>
     	</table>
 
       <p class='ueberschrift2'>Mastersteuerung</p>

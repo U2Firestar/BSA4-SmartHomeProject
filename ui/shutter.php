@@ -33,6 +33,16 @@
           <td align='center' border='1' width='5%'><img src='sym/shutter/chevron-double-down.svg'></td>
           <td align='center' border='1' width='5%'><img src='sym/shutter/chevron-double-up.svg'></td>
     		</tr>
+        <tr>
+          <td align='center' border='1' colspan='8' class='button'>
+            Neue Jalousie anlegen
+            <form action="shutter.php" id="newShutter" method='post'>
+              <label for="name">Name: </label>
+              <input type="text" name="name" id="name" maxlength="30">
+              <button type="submit">Anlegen</button>
+            </form>
+          </td>
+        </tr>
     	</table>
 
       <p class='ueberschrift2'>Mastersteuerung</p>
