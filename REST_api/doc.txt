@@ -1,0 +1,41 @@
+to create your environment locally on linux:
+
+create your working directory named for example api:
+mkdir api
+
+create your virtual environment:
+sudo apt-get install python3-pip
+sudo pip3 install virtualenv
+
+
+go into your working directory:
+cd api/
+type:
+virtualenv venv
+source venv/bin/activate
+
+shoul look now like this:
+(venv) mia@debianRPi:~/ec2-01/api$
+
+install flask:
+pip3 install Flask
+
+
+run flask:
+python3 app.py 
+
+in your webbrowser type:
+localhost:5000/home
+
+to stop flask type ctrl + C
+
+to deactivate venv type
+deactivate
+
+
+for more information see:
+https://gist.github.com/Geoyi/d9fab4f609e9f75941946be45000632b
+https://flask.palletsprojects.com/en/2.0.x/
+
+
+
