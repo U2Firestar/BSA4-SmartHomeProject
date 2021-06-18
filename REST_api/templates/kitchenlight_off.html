@@ -1,0 +1,21 @@
+{% extends "light.html" %}
+{% block head %}
+  {{ super() }}
+{% endblock %}
+{% block kitchenlight %}
+
+	<tr>
+		<td align='center' border='1' width='5%'><img src='/static/sym/light/lightbulb-off.svg'></td>
+    	<td align='center' border='1' width='25%'>K&uuml;che</td>
+        <td align='center' border='1' width='5%'>90%</td>
+        <td align='center' border='1' width='5%'><img src='/static/sym/trash.svg'></td>
+        <td align='center' border='1' width='5%'><img src='/static/sym/dash-lg.svg'></td>
+        <td align='center' border='1' width='5%'><img src='/static/sym/plus-lg.svg'></td>
+        <!--td align='center' border='1' width='5%'><img src='/static/sym/toggle-off.svg'></td-->
+        <td align='center' border='1' width='5%'>
+			<!--form method='post' action='/home/light?state=on'><input name='name' type='text'><input type='submit'></form-->
+			<form method='post' action='/home/light?state=on'><input name='toggleKitchenLight' type='image' src='/static/sym/toggle-off.svg' width=50px alt="Submit"></form>
+		</td>
+	</tr>
+
+{% endblock %}
