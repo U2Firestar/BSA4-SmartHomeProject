@@ -7,6 +7,8 @@
     <title>SmartHome - Licht</title>
 	<?php include 'header.inc.php'; ?>
   </head>
+	
+	<!-- Session-Variable in welcher alle Lichter und deren Abfragt sind (JSON,-Abfrage) --->
   <body>
     <center>
 
@@ -14,7 +16,12 @@
       <p class='ueberschrift2'>Einzelsteuerung</p>
       <table align='center' border='0' width='80%' class='control'>
     		<tr>
-    			<td align='center' border='1' width='5%'><img src='sym/light/lightbulb.svg'></td>
+    			<td align='center' border='1' width='5%'>
+					<!---
+					Die Buttons +/- bewirken mit dem aktuellen Wert eben +/-10 bzw. Max 100 - If-Abfrage und so
+					<img src='sym/light/lightbulb.svg'>
+					-->
+				</td>
     			<td align='center' border='1' width='25%'>K&uuml;che</td>
           <td align='center' border='1' width='5%'>90%</td>
           <td align='center' border='1' width='5%'><img src='sym/trash.svg'></td>
