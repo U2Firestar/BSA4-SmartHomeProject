@@ -1,59 +1,67 @@
 from flask import Flask, request
 from markupsafe import escape
-from flask import render_template
+import json
 
 app = Flask(__name__)
 
-light_on = True
 
-#Vorschlag Anfang
-global temp_states = [["/lights/light1", "/lights/light2",], [100, 0]]
+# a Python object (dict):
+# TODO make persistent in json file
+resources = {
+	"light1": 0,
+	"light2": 30, 
+	"light3": 100,
+	"shutter1": 60,
+	"shutter2": 80
+}
 
-#TODO: HTTP-METHODEN NOCH GENAUER ANSCHAUEN
-@app.route('/lights/')
-def all_lights_request():
-	#Hier kommt das JSON
-    return 'Hello World!'
+@app.route('/resources',methods=['GET'])
+def resources_get():
+	# convert into JSON:
+	x = json.dumps(resources)
+	# the result is a JSON string:
+	return x
 
-@app.route('/lights/<string:item>')
-def lights_request(item):
-	x = item
-	#Abgleich und Auswertung
-    return 'Hello World!'
+@app.route('/resource/<item>',methods=['GET'])
+def resourceX_get(item):
+	if item in resources:
+		return str(resources[item])
+	else:
+		return f"Can't find {escape(item)}."
 
-#Vorschlag Ende
+@app.route('/resource/<item>',methods=['PUT'])
+def resourceX_put(item):
+	global resources
+	if item in resources:
+		# update resource:
+		state = request.args.get("state")
+		resources[item] = state
+		return str(resources[item])
+	else:
+		# resource not found:
+		return f"{escape(item)} not found."
 
-@app.route('/')
-def hello_world():
-    return 'Hello World!'
+@app.route('/resource/<item>',methods=['POST'])
+def resourceX_post(item):
+	global resources
+	if item in resources:
+		# set value to 0:
+		resources[item] = 0
+		return str(0)
+	else:
+		# add new resource:
+		resources[item] = 0
+		return str(0)
 
-@app.route("/home",methods=['GET'])
-def home_index():
-    return render_template('index.html')
-
-@app.route('/home/temp',methods=['GET'])
-def current_temp():
-    #temp=round(sense.get_temperature(),2)
-    temp = 22.35
-    return str(temp)+"\n"
-
-@app.route('/home/light',methods=['GET'])
-def light_get():
-	return render_template('kitchenlight_off.html')
-
-@app.route("/home/shutters",methods=['GET'])
-def shutters_get():
-    return render_template('child.html')
-
-@app.route('/home/light',methods=['POST'])
-def light_post():
-    global light_on
-    state=request.args.get('state')
-    print(state)
-    if (state=="on"):
-        return render_template('kitchenlight_on.html')
-    else:
-        return render_template('kitchenlight_off.html')
+@app.route('/resource/<item>',methods=['DELETE'])
+def resourceX_delete(item):
+	global resources
+	if item in resources:
+		# remove entry with key <item>:
+		del resources[item]; 
+		return f"Removed {escape(item)}."
+	else:
+		return f"{escape(item)} not found."
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)
