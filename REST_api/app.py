@@ -7,8 +7,20 @@ app = Flask(__name__)
 light_on = True
 
 #Vorschlag Anfang
-#global temp_states = [["/lights/light1", "/lights/light2",], [100, 0]]
-#dynamischen Ersatz für @app.route(), der auf die Ressourcen reagiert
+global temp_states = [["/lights/light1", "/lights/light2",], [100, 0]]
+
+#TODO: HTTP-METHODEN NOCH GENAUER ANSCHAUEN
+@app.route('/lights/')
+def all_lights_request():
+	#Hier kommt das JSON
+    return 'Hello World!'
+
+@app.route('/lights/<string:item>')
+def lights_request(item):
+	x = item
+	#Abgleich und Auswertung
+    return 'Hello World!'
+
 #Vorschlag Ende
 
 @app.route('/')
