@@ -6,6 +6,11 @@ app = Flask(__name__)
 
 light_on = True
 
+#Vorschlag Anfang
+#global temp_states = [["/lights/light1", "/lights/light2",], [100, 0]]
+#dynamischen Ersatz für @app.route(), der auf die Ressourcen reagiert
+#Vorschlag Ende
+
 @app.route('/')
 def hello_world():
     return 'Hello World!'
