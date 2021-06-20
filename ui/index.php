@@ -23,13 +23,13 @@
       <p class='ueberschrift2'>Wettervorhersage (7 Tage)</p>
       <table align='center' border='0' width='80%'>
     		<tr>
-    			<td align='center'><b>MO</b><br><img src='sym/weather/conditions/cloudy.svg'><br>9°C</td>
-    			<td align='center'><b>DI</b><br><img src='sym/weather/conditions/rain.svg'><br>9°C</td>
-    			<td align='center'><b>MI</b><br><img src='sym/weather/conditions/snow.svg'><br>9°C</td>
-          <td align='center'><b>DO</b><br><img src='sym/weather/conditions/snow.svg'><br>9°C</td>
-          <td align='center'><b>FR</b><br><img src='sym/weather/conditions/sun.svg'><br>9°C</td>
-          <td align='center'><b>SA</b><br><img src='sym/weather/conditions/sun.svg'><br>9°C</td>
-          <td align='center'><b>SO</b><br><img src='sym/weather/conditions/storm.svg'><br>9°C</td>
+    			<td align='center'><b>MO</b><br>9°C<br>55km&sol;h<br><img src='sym/wind/n.svg'></td>
+    			<td align='center'><b>DI</b><br>9°C<br>55km&sol;h<br><img src='sym/wind/no.svg'>
+    			<td align='center'><b>MI</b><br>9°C<br>55km&sol;h<br><img src='sym/wind/o.svg'>
+          <td align='center'><b>DO</b><br>9°C<br>55km&sol;h<br><img src='sym/wind/so.svg'>
+          <td align='center'><b>FR</b><br>9°C<br>55km&sol;h<br><img src='sym/wind/s.svg'>
+          <td align='center'><b>SA</b><br>9°C<br>55km&sol;h<br><img src='sym/wind/sw.svg'>
+          <td align='center'><b>SO</b><br>9°C<br>55km&sol;h<br><img src='sym/wind/w.svg'>
     		</tr>
     	</table>
 
