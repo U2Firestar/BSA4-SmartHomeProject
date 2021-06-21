@@ -6,6 +6,30 @@
   //Use file_get_contents to GET the URL in question.
   $contents = file_get_contents($url);
   $arr = json_decode($contents, true);
+	
+	//php.ini  ";extension=php_soap.dll" -->  "extension=php_soap.dll" um SOAP zu aktivieren
+	$soap = new SoapClient( 
+ null, 
+ array( 
+       "location" => "http://sedsed.ddns.net:8080/SOAP_API/services/returnMethodes",
+       "uri" => "http://test-uri",
+       "soap_version" => SOAP_1_1,
+       "trace" => 1
+      ) 
+ );
+
+$result = $soap->weatherDatasetWeek(); // da kommt ein Array mit Werten zurück zurück; 
+
+if(is_soap_fault($result))
+{
+ print(" Fehlercode: $result->faultcode | Fehlerstring: 
+         $result->faultstring");
+}
+else
+{
+ print "$result<br>";
+}
+
 ?>
 
 <html>
