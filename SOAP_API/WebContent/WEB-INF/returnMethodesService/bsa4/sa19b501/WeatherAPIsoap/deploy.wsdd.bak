@@ -1,0 +1,36 @@
+<!-- Use this file to deploy some handlers/chains and services      -->
+<!-- Two ways to do this:                                           -->
+<!--   java org.apache.axis.client.AdminClient deploy.wsdd          -->
+<!--      after the axis server is running                          -->
+<!-- or                                                             -->
+<!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   -->
+<!--      from the same directory that the Axis engine runs         -->
+
+<deployment
+    xmlns="http://xml.apache.org/axis/wsdd/"
+    xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from returnMethodesService WSDL service -->
+
+  <service name="returnMethodes" provider="java:RPC" style="wrapped" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://WeatherAPIsoap.sa19b501.bsa4"/>
+      <parameter name="wsdlServiceElement" value="returnMethodesService"/>
+      <parameter name="schemaQualified" value="http://WeatherAPIsoap.sa19b501.bsa4"/>
+      <parameter name="wsdlServicePort" value="returnMethodes"/>
+      <parameter name="className" value="bsa4.sa19b501.WeatherAPIsoap.ReturnMethodesSoapBindingImpl"/>
+      <parameter name="wsdlPortType" value="returnMethodes"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation name="tempNow" qname="operNS:tempNow" xmlns:operNS="http://WeatherAPIsoap.sa19b501.bsa4" returnQName="retNS:tempNowReturn" xmlns:retNS="http://WeatherAPIsoap.sa19b501.bsa4" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+      </operation>
+      <operation name="windDirNow" qname="operNS:windDirNow" xmlns:operNS="http://WeatherAPIsoap.sa19b501.bsa4" returnQName="retNS:windDirNowReturn" xmlns:retNS="http://WeatherAPIsoap.sa19b501.bsa4" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+      </operation>
+      <operation name="windSpeedNow" qname="operNS:windSpeedNow" xmlns:operNS="http://WeatherAPIsoap.sa19b501.bsa4" returnQName="retNS:windSpeedNowReturn" xmlns:retNS="http://WeatherAPIsoap.sa19b501.bsa4" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+      </operation>
+      <operation name="weatherDatasetNow" qname="operNS:weatherDatasetNow" xmlns:operNS="http://WeatherAPIsoap.sa19b501.bsa4" returnQName="retNS:weatherDatasetNowReturn" xmlns:retNS="http://WeatherAPIsoap.sa19b501.bsa4" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+      </operation>
+      <operation name="weatherDatasetWeek" qname="operNS:weatherDatasetWeek" xmlns:operNS="http://WeatherAPIsoap.sa19b501.bsa4" returnQName="retNS:weatherDatasetWeekReturn" xmlns:retNS="http://WeatherAPIsoap.sa19b501.bsa4" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+      </operation>
+      <parameter name="allowedMethods" value="tempNow weatherDatasetNow windSpeedNow windDirNow weatherDatasetWeek"/>
+
+  </service>
+</deployment>

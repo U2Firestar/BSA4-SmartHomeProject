@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://WeatherAPIsoap.sa19b501.bsa4" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://WeatherAPIsoap.sa19b501.bsa4" xmlns:intf="http://WeatherAPIsoap.sa19b501.bsa4" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema elementFormDefault="qualified" targetNamespace="http://WeatherAPIsoap.sa19b501.bsa4" xmlns="http://www.w3.org/2001/XMLSchema">
+   <element name="tempNow">
+    <complexType/>
+   </element>
+   <element name="tempNowResponse">
+    <complexType>
+     <sequence>
+      <element name="tempNowReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="windDirNow">
+    <complexType/>
+   </element>
+   <element name="windDirNowResponse">
+    <complexType>
+     <sequence>
+      <element name="windDirNowReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="windSpeedNow">
+    <complexType/>
+   </element>
+   <element name="windSpeedNowResponse">
+    <complexType>
+     <sequence>
+      <element name="windSpeedNowReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="weatherDatasetNow">
+    <complexType/>
+   </element>
+   <element name="weatherDatasetNowResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" name="weatherDatasetNowReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="weatherDatasetWeek">
+    <complexType/>
+   </element>
+   <element name="weatherDatasetWeekResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" name="weatherDatasetWeekReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="windDirNowRequest">
+
+      <wsdl:part element="impl:windDirNow" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="windDirNowResponse">
+
+      <wsdl:part element="impl:windDirNowResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="weatherDatasetNowRequest">
+
+      <wsdl:part element="impl:weatherDatasetNow" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="tempNowRequest">
+
+      <wsdl:part element="impl:tempNow" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="weatherDatasetWeekResponse">
+
+      <wsdl:part element="impl:weatherDatasetWeekResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="windSpeedNowRequest">
+
+      <wsdl:part element="impl:windSpeedNow" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="weatherDatasetWeekRequest">
+
+      <wsdl:part element="impl:weatherDatasetWeek" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="tempNowResponse">
+
+      <wsdl:part element="impl:tempNowResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="windSpeedNowResponse">
+
+      <wsdl:part element="impl:windSpeedNowResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="weatherDatasetNowResponse">
+
+      <wsdl:part element="impl:weatherDatasetNowResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:portType name="returnMethodes">
+
+      <wsdl:operation name="tempNow">
+
+         <wsdl:input message="impl:tempNowRequest" name="tempNowRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:tempNowResponse" name="tempNowResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="windDirNow">
+
+         <wsdl:input message="impl:windDirNowRequest" name="windDirNowRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:windDirNowResponse" name="windDirNowResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="windSpeedNow">
+
+         <wsdl:input message="impl:windSpeedNowRequest" name="windSpeedNowRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:windSpeedNowResponse" name="windSpeedNowResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="weatherDatasetNow">
+
+         <wsdl:input message="impl:weatherDatasetNowRequest" name="weatherDatasetNowRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:weatherDatasetNowResponse" name="weatherDatasetNowResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="weatherDatasetWeek">
+
+         <wsdl:input message="impl:weatherDatasetWeekRequest" name="weatherDatasetWeekRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:weatherDatasetWeekResponse" name="weatherDatasetWeekResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="returnMethodesSoapBinding" type="impl:returnMethodes">
+
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="tempNow">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="tempNowRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="tempNowResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="windDirNow">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="windDirNowRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="windDirNowResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="windSpeedNow">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="windSpeedNowRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="windSpeedNowResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="weatherDatasetNow">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="weatherDatasetNowRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="weatherDatasetNowResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="weatherDatasetWeek">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="weatherDatasetWeekRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="weatherDatasetWeekResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="returnMethodesService">
+
+      <wsdl:port binding="impl:returnMethodesSoapBinding" name="returnMethodes">
+
+         <wsdlsoap:address location="http://localhost:8080/SOAP_API/services/returnMethodes"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>
