@@ -1,22 +1,35 @@
 from flask import Flask, request
+from flask_cors import CORS, cross_origin
 from markupsafe import escape
 import json
+import re
+import logging
+
+logging.basicConfig(filename = 'logs/logger.log', level=logging.DEBUG, format=f'%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
+
 
 app = Flask(__name__)
+CORS(app)
+
+validItemName = re.compile("[A-Za-z0-9_-]+")
 
 
-# a Python object (dict):
-# TODO make persistent in json file
-lights = {
-	"light1": 0,
-	"light2": 30, 
-	"light3": 100
-}
+lights = {}
+shutters = {}
 
-shutters = {
-	"shutter1": 60,
-	"shutter2": 80
-}
+try:
+	with open('jsonDB/lights.json') as json_file:
+		lights = json.load(json_file)
+except FileNotFoundError:
+	pass
+
+try:
+	with open('jsonDB/shutters.json') as json_file:
+		shutters = json.load(json_file)
+except FileNotFoundError:
+	pass
+
+
 
 # lights: ----------------------------------------------
 # all lights: 
@@ -36,6 +49,7 @@ def lightX_get(item):
 		return f"Can't find {escape(item)}."
 
 @app.route('/resource/lights/<item>',methods=['PUT'])
+@cross_origin()
 def lightX_put(item):
 	global lights
 	if item in lights:
@@ -44,30 +58,34 @@ def lightX_put(item):
 		try:
 			lights[item] = int(state)
 		except ValueError:
-			lights[item] = 0	
+			lights[item] = 0
+		write_lights()
 		return str(lights[item])
 	else:
 		# resource not found:
 		return f"{escape(item)} not found."
 
 @app.route('/resource/lights/<item>',methods=['POST'])
+@cross_origin()
 def lightX_post(item):
 	global lights
-	if item in lights:
-		# set value to 0:
+	# check if item name only contains letters and numbers:
+	if validItemName.fullmatch(item) is not None:
+		# adds the new item, if it did already exist value is set to 0:
 		lights[item] = 0
+		write_lights()
 		return str(0)
 	else:
-		# add new resource:
-		lights[item] = 0
-		return str(0)
+		return "Invalid name."
 
 @app.route('/resource/lights/<item>',methods=['DELETE'])
+@cross_origin()
 def lightX_delete(item):
 	global lights
 	if item in lights:
 		# remove entry with key <item>:
-		del lights[item]; 
+		del lights[item];
+		write_lights()
 		return f"Removed {escape(item)}."
 	else:
 		return f"{escape(item)} not found."
@@ -82,7 +100,7 @@ def shutters_get():
 	# the result is a JSON string:
 	return x
 
-# one shutter: 
+# one shutter:
 @app.route('/resource/shutters/<item>',methods=['GET'])
 def shutterX_get(item):
 	if item in shutters:
@@ -91,6 +109,7 @@ def shutterX_get(item):
 		return f"Can't find {escape(item)}."
 
 @app.route('/resource/shutters/<item>',methods=['PUT'])
+@cross_origin()
 def shutterX_put(item):
 	global shutters
 	if item in shutters:
@@ -100,34 +119,50 @@ def shutterX_put(item):
 			shutters[item] = int(state)
 		except ValueError:
 			shutters[item] = 0
+		write_shutters()
 		return str(shutters[item])
 	else:
 		# resource not found:
 		return f"{escape(item)} not found."
 
 @app.route('/resource/shutters/<item>',methods=['POST'])
+@cross_origin()
 def shutterX_post(item):
 	global shutters
-	if item in shutters:
-		# set value to 0:
+	# check if item name only contains letters and numbers:
+	if validItemName.fullmatch(item) is not None:
+		# adds the new item, if it did already exist value is set to 0:
 		shutters[item] = 0
+		write_shutters()
 		return str(0)
 	else:
-		# add new resource:
-		shutters[item] = 0
-		return str(0)
+		return "Invalid name."
 
 @app.route('/resource/shutters/<item>',methods=['DELETE'])
+@cross_origin()
 def shutterX_delete(item):
 	global shutters
 	if item in shutters:
 		# remove entry with key <item>:
-		del shutters[item]; 
+		del shutters[item];
+		write_shutters()
 		return f"Removed {escape(item)}."
 	else:
 		return f"{escape(item)} not found."
 
 
+def write_lights():
+	with open('jsonDB/lights.json', 'w') as outfile:
+		json.dump(lights, outfile, indent=4)
+
+def write_shutters():
+	#print("Writing shutters ... ")
+	with open('jsonDB/shutters.json', 'w') as outfile:
+		json.dump(shutters, outfile, indent=4)
+
+
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)
+
 
