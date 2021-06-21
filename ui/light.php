@@ -52,20 +52,30 @@
                 echo strval($val);
                 echo "%";
                 echo "</td>
-                <td align='center' border='1' width='5%'><img src='sym/trash.svg'
-                onClick='sendData2()'></td>
-                <td align='center' border='1' width='5%'><img src='sym/dash-lg.svg'></td>
-                <td align='center' border='1' width='5%'><img src='sym/plus-lg.svg'></td>
+                <td id='$key' align='center' border='1' width='5%'><img src='sym/trash.svg'
+                onClick='sendDELETE(\"$key\")'></td>
+                <td align='center' border='1' width='5%'><img src='sym/dash-lg.svg'";
+                if($val != 0)
+                {
+                  echo " onClick='sendPUT(\"$key\", ($val-10))";
+                }
+                echo "'></td>
+                <td align='center' border='1' width='5%'><img src='sym/plus-lg.svg'";
+                if($val != 100)
+                {
+                  echo " onClick='sendPUT(\"$key\", ($val+10))";
+                }
+                echo "'></td>
                 <td align='center' border='1' width='5%'>
                 ";
 
                 if ($val == 0)
                 {
-                  echo "<img src='sym/toggle-off.svg'>";
+                  echo "<img src='sym/toggle-off.svg' onClick='sendPUT(\"$key\", 100)'>";
                 }
                 else
                 {
-                  echo "<img src='sym/toggle-on.svg'>";
+                  echo "<img src='sym/toggle-on.svg' onClick='sendPUT(\"$key\", 0)'>";
                 }
 
                 echo "
@@ -76,42 +86,13 @@
             ?>
 
             <script>
-            function deleteData()
+
+
+
+            function sendDELETE(name = "light1")
             {
-              alert("Deleting");
-              fetch('http://13.53.174.25:5000/resource/lights/light1', {
-                method:'DELETE'
-              });
-            }
-
-
-
-            function sendData()
-            {
-              alert("Sending DELETE!");
-              $.ajax({
-                //the url to send the data to
-                url: "http://13.53.174.25:5000/resource/lights/light1",
-                //type. for eg: GET, POST
-                type: "DELETE",
-                contentType:'application/json',
-                dataType: 'text',
-                //on success
-                success: function()
-                {
-                  alert("Successful!");
-                },
-                //on error
-                error: function()
-                {
-                  alert("Not Successful!");
-                }
-              });
-            }
-
-            function sendData2()
-            {
-              var url = "http://13.53.174.25:5000/resource/lights/light1";
+              //alert("Deleting \"" + name + "\"!");
+              var url = "http://13.53.174.25:5000/resource/lights/" + name;
 
               var xhr = new XMLHttpRequest();
               xhr.open("DELETE", url, true);
@@ -121,41 +102,43 @@
                     console.log(xhr.status);
                     console.log(xhr.responseText);
                  }};
-              alert("Sending");
               xhr.send();
-              alert("Sending done");
+
+              setTimeout(function()
+              {
+                location.reload();
+              }, 100);
+
             }
 
-            // function deleteData(item)
-            // {
-            //   alert("DELETING");
-            //   fetch('http://13.53.174.25:5000/resource/lights/light1' , { //+ item
-            //     method: 'DELETE'
-            //   });
-            // }
+            function sendPUT(name, state)
+            {
+              var url = "http://13.53.174.25:5000/resource/lights/" + name + "?state=" + state;
 
-//             function sendData3()
-//             {
-//
-//               $.ajax({
-//                 url: 'http://localhost:8080/actors/remover',
-//                 type: 'DELETE',
-//                 data: {movie:movie},
-//                 contentType:'application/json',
-//                 dataType: 'text',
-//                 success: function(result) {...},
-//                 error: function(result){...}
-// });
+              var xhr = new XMLHttpRequest();
+              xhr.open("PUT", url, true);
 
+              xhr.onreadystatechange = function () {
+                 if (xhr.readyState === 4) {
+                    console.log(xhr.status);
+                    console.log(xhr.responseText);
+                 }};
+              xhr.send();
+              setTimeout(function()
+              {
+                location.reload();
+              }, 100);
+            }
         </script>
 
         <tr>
           <td align='center' border='1' colspan='7' class='button'>
             Neues Licht anlegen
-            <form action="http://13.53.174.25:5000/resource/lights/abc" id="newLight" method='post'>
+            <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
+            <form action="http://13.53.174.25:5000/resource/lights/abcdefg" target="dummyframe" id="newLight" method='post'>
               <label for="name">Name: </label>
               <input type="text" name="name" id="name" maxlength="30">
-              <button type="submit">Anlegen</button>
+              <button type="submit" onclick="location.reload()">Anlegen</button>
             </form>
           </td>
         </tr>
