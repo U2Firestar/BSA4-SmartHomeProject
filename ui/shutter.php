@@ -6,6 +6,7 @@
   //echo $URL_BASE.$URL_TYPE;
   $contents = file_get_contents($URL_BASE.$URL_TYPE);
   $arr = json_decode($contents, true);
+  $wind = file_get_contents($URL_BASE."windwatcher");
 ?>
 
 <html>
@@ -179,9 +180,17 @@
       <p class='ueberschrift1'><img src='sym/weather/air.svg'> Windw&auml;chter</p>
       <table align='center' border='0'>
         <tr>
-          <td align='center' border='0' width='15%'>WIND</td>
-          <td align='center' border='0' width='5%'></td>
-          <td align='center' border='0' width='15%'>ja nein</td>
+          <td align='right' border='0' width='15%'>Windwächter aktiv:</td>
+          <td align='center' border='0' width='2%'></td>
+          <td align='left' border='0' width='15%'><?php
+          if($wind == 0)
+          {
+            echo "<img src='sym/x-lg.svg'>";
+          }
+          else
+          {
+            echo "<img src='sym/check-lg.svg'>";
+          }?></td>
         </tr>
       </table>
 
