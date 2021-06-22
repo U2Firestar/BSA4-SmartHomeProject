@@ -1,13 +1,15 @@
 package bsa4.sa19b501.WeatherAPIsoap;
 
+import java.text.DecimalFormat;
 import java.util.Random;
 
 public class returnMethodes {
 
 	public String tempNow() {
 		Random rand = new Random();
-		float randomTemp = rand.nextFloat() + rand.nextInt(50); // bis 50°C
-		return String.valueOf(randomTemp);
+		DecimalFormat df = new DecimalFormat("0.0");		
+		float randomTemp = rand.nextFloat() + rand.nextInt(50); // bis 50°C		
+		return String.valueOf(df.format(randomTemp));
 	}
 
 	public String windDirNow() {
@@ -18,8 +20,9 @@ public class returnMethodes {
 
 	public String windSpeedNow() {
 		Random rand = new Random();
+		DecimalFormat df = new DecimalFormat("0.0");	
 		float randomTemp = rand.nextFloat() + rand.nextInt(100); // bis 100km/h
-		return String.valueOf(randomTemp);
+		return String.valueOf(df.format(randomTemp));
 	}
 
 	public String[] weatherDatasetNow() {
