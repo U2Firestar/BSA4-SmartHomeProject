@@ -4,6 +4,10 @@ from markupsafe import escape
 import json
 import re
 import logging
+import subprocess
+import time
+import atexit
+from apscheduler.schedulers.background import BackgroundScheduler
 
 logging.basicConfig(filename = 'logs/logger.log', level=logging.DEBUG, format=f'%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
 
@@ -16,6 +20,39 @@ validItemName = re.compile("[A-Za-z0-9_-]+")
 
 lights = {}
 shutters = {}
+
+
+@app.route('/windwatcher',methods=['GET'])
+def getWindSpeed():
+	weather = subprocess.check_output(['curl', 'https://api.openweathermap.org/data/2.5/onecall?lat=48.22&lon=16.27&exclude=hourly,daily&appid=8d7fbf90356688724147e95763c48ca5'])
+	#print(weather)
+	weather_dict = json.loads(weather)
+	current = weather_dict['current']
+	#print(current)
+	wind_speed = (current['wind_speed'])
+	#wind_deg = current['wind_deg']
+	curr_time = time.strftime("%A, %d. %B %Y %I:%M:%S %p")
+	#print(curr_time + "  " + str(wind_speed)+ "  " + str(wind_deg)+ "°")
+	print(curr_time + "  " + str(wind_speed))
+	#print(type(wind_speed))
+	if wind_speed > 70:
+		allShutters_up()
+		return str(1)
+	else:
+		return str(0)
+	
+
+# Scheduler for periodic wind check:
+scheduler = BackgroundScheduler()
+#scheduler.add_job(func=print_date_time, trigger="interval", seconds=60)
+scheduler.add_job(func=getWindSpeed, trigger="interval", seconds=60)
+scheduler.start()
+
+# Shut down the scheduler when exiting the app
+atexit.register(lambda: scheduler.shutdown())
+
+
+
 
 try:
 	with open('jsonDB/lights.json') as json_file:
