@@ -31,39 +31,56 @@ except FileNotFoundError:
 
 
 
-# master switch:
+# master and group switch:
 @app.route('/resource/<item>',methods=['PUT'])
 @cross_origin()
 def All_put(item):
 	int_state = 0
 	state = request.args.get("state")
-	try:
-		int_state = int(state)
-	except ValueError:
-		pass
-	if item == 'lights':
-		# update all lights:
-		if int_state == 0:
-			allLights_off()
-			return str(0)
-		elif int_state == 100:
-			allLights_on()
-			return str(100)
+	scene = request.args.get("scene")
+	print(state)
+	print(scene)
+	if state is not None:	# all items on or off
+		try:
+			int_state = int(state)
+		except ValueError:
+			pass
+		if item == 'lights':
+			# update all lights:
+			if int_state == 0:
+				allLights_off()
+				return str(0)
+			elif int_state == 100:
+				allLights_on()
+				return str(100)
+			else:
+				return "error"
+		elif item == 'shutters':
+			# update all shutters:
+			if int_state == 0:
+				allShutters_up()
+				return str(0)
+			elif int_state == 100:
+				allShutters_down()
+				return str(100)
+			else:
+				return "error"
 		else:
-			return "error"
-	elif item == 'shutters':
-		# update all shutters:
-		if int_state == 0:
-			allShutters_up()
-			return str(0)
-		elif int_state == 100:
-			allShutters_down()
-			return str(100)
-		else:
-			return "error"
-	else:
-		# resource not found:
-		return f"{escape(item)} not found."
+			# resource not found:
+			return f"{escape(item)} not found."
+	elif scene is not None:		# a scene is defined
+		if scene == 'reading':
+			switchReading()	
+		elif scene == 'gaming':
+			switchGaming()
+		elif scene == 'romantic':
+			switchRomantic()
+		elif scene == 'night':
+			switchNight()
+		x = json.dumps(lights)
+		return x
+	else: 
+		return "error"
 
 # lights: ----------------------------------------------
 # all lights: 
@@ -221,6 +238,48 @@ def allShutters_down():
 	for k,v in shutters.items():
 		shutters[k] = 100
 	write_shutters()
+
+def switchReading():
+	global lights
+	i = 0
+	for k,v in lights.items():
+		if i == 0 or i == 1:
+			lights[k] = 70
+		else:
+			lights[k] = 0
+		i = i +1
+	write_lights()
+
+def switchGaming():
+	global lights
+	state = 0
+	for k,v in lights.items():
+		lights[k] = state
+		state = (state + 20) % 100
+	write_lights()
+
+def switchRomantic():
+	global lights
+	i = 0
+	for k,v in lights.items():
+		if (i % 2) == 0:
+			lights[k] = 30
+		else:
+			lights[k] = 0
+		i = i +1
+	write_lights()
+
+def switchNight():
+	global lights
+	i = 0
+	for k,v in lights.items():
+		if i == 0 or i == 1:
+			lights[k] = 10
+		else:
+			lights[k] = 0
+		i = i +1
+	write_lights()
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)

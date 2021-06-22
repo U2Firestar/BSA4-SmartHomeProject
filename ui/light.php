@@ -1,35 +1,11 @@
 <!doctype html>
 
 <?php
-  $url = 'http://13.53.174.25:5000/resource/lights';
-
-  //Use file_get_contents to GET the URL in question.
-  $contents = file_get_contents($url);
+  $URL_BASE = "http://13.53.174.25:5000/resource/";
+  $URL_TYPE = "lights";
+  //echo $URL_BASE.$URL_TYPE;//DEBUG
+  $contents = file_get_contents($URL_BASE.$URL_TYPE);
   $arr = json_decode($contents, true);
-	
-	//php.ini  ";extension=php_soap.dll" -->  "extension=php_soap.dll" um SOAP zu aktivieren
-	$soap = new SoapClient( 
- null, 
- array( 
-       "location" => "http://sedsed.ddns.net:8080/SOAP_API/services/returnMethodes",
-       "uri" => "http://test-uri",
-       "soap_version" => SOAP_1_1,
-       "trace" => 1
-      ) 
- );
-
-$result = $soap->weatherDatasetWeek(); // da kommt ein Array mit Werten zurück zurück; 
-
-if(is_soap_fault($result))
-{
- print(" Fehlercode: $result->faultcode | Fehlerstring: 
-         $result->faultstring");
-}
-else
-{
- print "$result<br>";
-}
-
 ?>
 
 <html>
@@ -85,7 +61,7 @@ else
                 }
                 echo "'></td>
                 <td align='center' border='1' width='5%'><img src='sym/plus-lg.svg'";
-                if($val != 100)
+                if($val < 100)
                 {
                   echo " onClick='sendPUT(\"$key\", ($val+10))";
                 }
@@ -93,7 +69,7 @@ else
                 <td align='center' border='1' width='5%'>
                 ";
 
-                if ($val == 0)
+                if ($val <= 0)
                 {
                   echo "<img src='sym/toggle-off.svg' onClick='sendPUT(\"$key\", 100)'>";
                 }
@@ -115,8 +91,9 @@ else
 
             function sendDELETE(name = "light1")
             {
-              //alert("Deleting \"" + name + "\"!");
-              var url = "http://13.53.174.25:5000/resource/lights/" + name;
+              var url = "<?php
+              echo $URL_BASE.$URL_TYPE."/";
+              ?>" + name;
 
               var xhr = new XMLHttpRequest();
               xhr.open("DELETE", url, true);
@@ -137,7 +114,9 @@ else
 
             function sendPUT(name, state)
             {
-              var url = "http://13.53.174.25:5000/resource/lights/" + name + "?state=" + state;
+              var url = "<?php
+              echo $URL_BASE.$URL_TYPE."/";
+              ?>" + name + "?state=" + state;
 
               var xhr = new XMLHttpRequest();
               xhr.open("PUT", url, true);
@@ -153,13 +132,36 @@ else
                 location.reload();
               }, 100);
             }
+
+            function sendPUTmaster(command, state)
+            {
+              var url = "<?php
+              echo $URL_BASE.$URL_TYPE;
+              ?>" + "?" + command + "=" + state;
+
+              var xhr = new XMLHttpRequest();
+              xhr.open("PUT", url, true);
+
+              xhr.onreadystatechange = function () {
+                 if (xhr.readyState === 4) {
+                    console.log(xhr.status);
+                    console.log(xhr.responseText);
+                 }};
+              xhr.send();
+              setTimeout(function()
+              {
+                location.reload();
+              }, 100);
+            } //ce/lights?scene=lesen
         </script>
 
         <tr>
           <td align='center' border='1' colspan='7' class='button'>
             Neues Licht anlegen
             <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
-            <form action="http://13.53.174.25:5000/resource/lights/abcdefg" target="dummyframe" id="newLight" method='post'>
+            <form action="<?php
+            echo $URL_BASE.$URL_TYPE;
+            ?>" id="newLight" target="dummyframe" method='post'>
               <label for="name">Name: </label>
               <input type="text" name="name" id="name" maxlength="30">
               <button type="submit" onclick="location.reload()">Anlegen</button>
@@ -171,22 +173,22 @@ else
       <p class='ueberschrift2'>Mastersteuerung</p>
       <table align='center' border='0'>
     		<tr>
-    			<td align='center' border='0' width='35%' class='button'><a href='light.php'><img src='sym/light/lightbulb-fill.svg'><br>Alle EIN</a></td>
+    			<td align='center' border='0' width='35%' class='button' onClick='sendPUTmaster("state", 100)'><img src='sym/light/lightbulb-fill.svg'><br>Alle EIN</td>
           <td align='center' border='0' width='10%'></td>
-    			<td align='center' border='0' width='35%' class='button'><a href='shutter.php'><img src='sym/light/lightbulb-off-fill.svg'><br>Alle AUS</a></td>
+    			<td align='center' border='0' width='35%' class='button' onClick='sendPUTmaster("state", 0)'><img src='sym/light/lightbulb-off-fill.svg'><br>Alle AUS</td>
     		</tr>
     	</table>
 
       <p class='ueberschrift1'><img src='sym/stars.svg'> Szenen</p>
       <table align='center' border='0'>
         <tr>
-          <td align='center' border='0' width='15%' class='button'><a href='light.php'><img src='sym/scenes/book.svg'><br>Lesen</a></td>
+          <td align='center' border='0' width='15%' class='button' onClick='sendPUTmaster("scene", "reading")'><img src='sym/scenes/book.svg'><br>Lesen</td>
           <td align='center' border='0' width='5%'></td>
-          <td align='center' border='0' width='15%' class='button'><a href='shutter.php'><img src='sym/scenes/headset.svg'><br>Gaming</a></td>
+          <td align='center' border='0' width='15%' class='button' onClick='sendPUTmaster("scene", "gaming")'><img src='sym/scenes/headset.svg'><br>Gaming</td>
           <td align='center' border='0' width='5%'></td>
-          <td align='center' border='0' width='15%' class='button'><a href='shutter.php'><img src='sym/scenes/heart.svg'><br>Romantik</a></td>
+          <td align='center' border='0' width='15%' class='button' onClick='sendPUTmaster("scene", "romantic")'><img src='sym/scenes/heart.svg'><br>Romantik</td>
           <td align='center' border='0' width='5%'></td>
-          <td align='center' border='0' width='15%' class='button'><a href='shutter.php'><img src='sym/scenes/moon-stars.svg'><br>Nacht</a></td>
+          <td align='center' border='0' width='15%' class='button' onClick='sendPUTmaster("scene", "night")'><img src='sym/scenes/moon-stars.svg'><br>Nacht</td>
         </tr>
       </table>
 
