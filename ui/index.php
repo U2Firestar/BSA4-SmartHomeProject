@@ -1,4 +1,44 @@
 <!doctype html>
+
+<?php
+	$soap = new SoapClient(
+			null,
+			array(
+					"location" => "http://sedesed.ddns.net:8080/SOAP_API/services/returnMethodes",
+					"uri" => "http://sedesed.ddns.net:8080/SOAP_API/services/returnMethodes",
+					"soap_version" => SOAP_1_1,
+					"trace" => 1
+			)
+	);
+
+	$resultWeek = $soap->weatherDatasetWeek(); // da kommt ein Array mit Werten zurück;
+
+	if(is_soap_fault($resultWeek))
+	{
+		print(" Fehlercode: $resultWeek->faultcode | Fehlerstring: 
+			 $resultWeek->faultstring");
+	}
+	else
+	{
+		var_dump($resultWeek);
+		echo $resultWeek["weatherDatasetWeekReturn"][1];
+		echo "<br>";
+	}
+
+	$resultNow = $soap->weatherDatasetNow(); // da kommt ein Array mit Werten zurück;
+
+	if(is_soap_fault($resultNow))
+	{
+		print(" Fehlercode: $resultNow->faultcode | Fehlerstring: 
+				 $resultNow->faultstring");
+	}
+	else
+	{
+		var_dump($resultNow);
+		echo $resultNow["weatherDatasetNowReturn"][1];
+	}
+?>
+
 <html>
   <head>
     <meta charset="utf-8">
