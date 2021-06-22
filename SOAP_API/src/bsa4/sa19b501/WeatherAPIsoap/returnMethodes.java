@@ -14,7 +14,7 @@ public class returnMethodes {
 
 	public String windDirNow() {
 		Random rand = new Random();
-		String array[] = { "N", "NO", "O", "OS", "S", "SW", "W", "NW" };
+		String array[] = { "N", "NO", "O", "SO", "S", "SW", "W", "NW" };
 		return array[rand.nextInt(8)];
 	}
 
