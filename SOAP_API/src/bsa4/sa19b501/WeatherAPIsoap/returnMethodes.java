@@ -21,7 +21,7 @@ public class returnMethodes {
 	public String windSpeedNow() {
 		Random rand = new Random();
 		DecimalFormat df = new DecimalFormat("0.0");	
-		float randomTemp = rand.nextFloat() + rand.nextInt(100); // bis 100km/h
+		float randomTemp = rand.nextFloat() + rand.nextInt(80); // bis 100km/h
 		return String.valueOf(df.format(randomTemp));
 	}
 
