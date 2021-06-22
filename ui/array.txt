@@ -1,0 +1,22 @@
+Wettervorhersage:
+Mo = [0][][]
+Di = [1][][]
+Mi = [2][][]
+Do = [3][][]
+Fr = [4][][]
+Sa = [5][][]
+So = [6][][]
+
+Temperatur = [][0][]
+Windrichtung = [][1][]
+Windgeschwindigkeit = [][2][]
+
+Werte = [][][1]
+
+aktuelle Werte:
+Temperatur = [0][]
+Windrichtung = [1][]
+Windgeschwindigkeit = [2][]
+
+Werte = [][1]
+
