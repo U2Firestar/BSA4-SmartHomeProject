@@ -31,6 +31,40 @@ except FileNotFoundError:
 
 
 
+# master switch:
+@app.route('/resource/<item>',methods=['PUT'])
+@cross_origin()
+def All_put(item):
+	int_state = 0
+	state = request.args.get("state")
+	try:
+		int_state = int(state)
+	except ValueError:
+		pass
+	if item == 'lights':
+		# update all lights:
+		if int_state == 0:
+			allLights_off()
+			return str(0)
+		elif int_state == 100:
+			allLights_on()
+			return str(100)
+		else:
+			return "error"
+	elif item == 'shutters':
+		# update all shutters:
+		if int_state == 0:
+			allShutters_up()
+			return str(0)
+		elif int_state == 100:
+			allShutters_down()
+			return str(100)
+		else:
+			return "error"
+	else:
+		# resource not found:
+		return f"{escape(item)} not found."
+
 # lights: ----------------------------------------------
 # all lights: 
 @app.route('/resource/lights',methods=['GET'])
@@ -65,10 +99,12 @@ def lightX_put(item):
 		# resource not found:
 		return f"{escape(item)} not found."
 
-@app.route('/resource/lights/<item>',methods=['POST'])
+@app.route('/resource/lights',methods = ['POST'])
 @cross_origin()
-def lightX_post(item):
-	global lights
+def lightX_post():
+	item = request.form['name']
+	#print(item)
+	item = item[:30]
 	# check if item name only contains letters and numbers:
 	if validItemName.fullmatch(item) is not None:
 		# adds the new item, if it did already exist value is set to 0:
@@ -125,18 +161,20 @@ def shutterX_put(item):
 		# resource not found:
 		return f"{escape(item)} not found."
 
-@app.route('/resource/shutters/<item>',methods=['POST'])
+@app.route('/resource/shutters',methods = ['POST'])
 @cross_origin()
-def shutterX_post(item):
-	global shutters
+def shutterX_post():
+	item = request.form['name']
+	item = item[:30]
+	#print(item)
 	# check if item name only contains letters and numbers:
 	if validItemName.fullmatch(item) is not None:
-		# adds the new item, if it did already exist value is set to 0:
 		shutters[item] = 0
 		write_shutters()
 		return str(0)
 	else:
 		return "Invalid name."
+
 
 @app.route('/resource/shutters/<item>',methods=['DELETE'])
 @cross_origin()
@@ -150,17 +188,39 @@ def shutterX_delete(item):
 	else:
 		return f"{escape(item)} not found."
 
-
+# Store data in jsonDB for persistence:
 def write_lights():
 	with open('jsonDB/lights.json', 'w') as outfile:
 		json.dump(lights, outfile, indent=4)
 
 def write_shutters():
-	#print("Writing shutters ... ")
 	with open('jsonDB/shutters.json', 'w') as outfile:
 		json.dump(shutters, outfile, indent=4)
 
+# Helper functions:
+def allLights_on():
+	global lights
+	for k,v in lights.items():
+		lights[k] = 100
+	write_lights()
+	
+def allLights_off():
+	global lights
+	for k,v in lights.items():
+		lights[k] = 0
+	write_lights()
 
+def allShutters_up():
+	global shutters
+	for k,v in shutters.items():
+		shutters[k] = 0
+	write_shutters()
+	
+def allShutters_down():
+	global shutters
+	for k,v in shutters.items():
+		shutters[k] = 100
+	write_shutters()
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)
